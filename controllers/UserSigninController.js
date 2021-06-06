@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const userModelSchema = require('../models/UserModel.js');
 
-const getUser = async function(req, res) {
+const signin = async function(req, res) {
   console.log("User get route working!");
   try {
     const userID = req.params.id;
@@ -50,9 +50,9 @@ const postUser = async (req, res) => {
     //console.log(userID);
     //console.log(user);
     if (userExists) {
-      // await user.create({
-      //   name: 'sadasdasdas'
-      // });
+      res.status(400).json({
+        Error: 'A user with this ID already exists. Kindly try entering another '
+      });
     }
     else{
       await userModelSchema.create({
