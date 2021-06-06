@@ -57,10 +57,19 @@ const postUser = async (req, res) => {
     else{
       await userModelSchema.create({
         _id: userID,
-        name: 'sadasdasdas'
+        name: 'sadasdasdas',
+        contactInfo: {
+          country: req.body.country,
+          dateOfBirth: req.body.dob
+          firstname: req.bofy.firstName,
+          lastName: req.body.lastName,
+          middleName: req.body.middleName,
+          password: req.body.password,
+          sex: req.body.sex
+        }
       });
       res.status(200).json({
-        done: 'done'
+        Success: 'Use created successfully!'
       });
     };
   }

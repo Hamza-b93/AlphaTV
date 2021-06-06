@@ -51,13 +51,13 @@ const postUser = async (req, res) => {
     //console.log(user);
     if (userExists) {
       res.status(400).json({
-        Error: 'A user with this ID already exists. Kindly try entering another '
+        Error: 'A user with this ID already exists. Kindly try entering another User ID.'
       });
     }
     else{
       await userModelSchema.create({
         _id: userID,
-        name: 'sadasdasdas'
+        password: password
       });
       res.status(200).json({
         done: 'done'
