@@ -76,7 +76,7 @@ const postUser = async (req, res) => {
         }
       });
       res.status(200).json({
-        Success: 'Use created successfully!'
+        Success: 'User created successfully!'
       });
     };
   }

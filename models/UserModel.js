@@ -40,11 +40,11 @@ const userSchema = new mongoose.Schema({
       type: String
     },
     city: {
-      required: false,
+      required: true,
       type: String
     },
     country: {
-      required: false,
+      required: true,
       type: String
     },
     dateOfBirth: {
@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema({
       type: String
     },
     emailAddress: {
-      required: false,
+      required: true,
       type: String
     },
     firstName: {
@@ -68,11 +68,11 @@ const userSchema = new mongoose.Schema({
       type: Array,
     },
     lastName: {
-      required: false,
+      required: true,
       type: String
     },
     middleName: {
-      required: false,
+      required: true,
       type: String
     },
     phoneNumber: {
@@ -87,7 +87,7 @@ const userSchema = new mongoose.Schema({
       type: String
     },
     sex: {
-      required: false,
+      required: true,
       type: String
     },
     socialMedia: {
