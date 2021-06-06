@@ -44,24 +44,31 @@ const postUser = async (req, res) => {
   console.log("User post route working!");
   try {
     //const { id, accountType, channelName, city, country, dob, emailAddress, phoneNumber, sex } = req.body;
-    const userID = await req.params.id;
+    const userID = await req.body.id;
     const userExists = await userModelSchema.findOne({_id: userID});
+    const country = req.body.country;
+    const dateOfBirth = req.body.dateOfBirth;
+    const firstname = req.body.firstName;
+    const lastName = req.body.lastName;
+    const middleName = req.body.middleName;
+    const password = req.body.password;
+    const sex = req.body.sex;
     console.log(userID);
+    console.log(country);
     //console.log(userID);
     //console.log(user);
     if (userExists) {
-      // await user.create({
-      //   name: 'sadasdasdas'
-      // });
+      res.status(400).json({
+        Error: 'A user with this ID already exists. Kindly try another ID.'
+      });
     }
     else{
       await userModelSchema.create({
         _id: userID,
-        name: 'sadasdasdas',
         contactInfo: {
           country: req.body.country,
-          dateOfBirth: req.body.dob
-          firstname: req.bofy.firstName,
+          dateOfBirth: req.body.dateOfBirth,
+          firstname: req.body.firstName,
           lastName: req.body.lastName,
           middleName: req.body.middleName,
           password: req.body.password,
@@ -74,7 +81,10 @@ const postUser = async (req, res) => {
     };
   }
   catch(error) {
-    console.log(error);
+    //console.log(error);
+    res.status(400).json({
+      Error: error
+    })
   };
 };
 
