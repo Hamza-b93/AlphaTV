@@ -22,4 +22,5 @@ app.listen(port, function() {
 
 
 app.use('/user', userRoute);
+app.use('/users', userRoute);
 app.use('/signup', signupRoute);

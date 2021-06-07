@@ -24,13 +24,52 @@ const getUser = async function(req, res) {
           accumulatedViews: user.accumulatedViews,
           bio: user.bio,
           categories: user.categories,
-          channelName: user.channelName,
-          city: user.contactInfo.city,
-          country: user.contactInfo.country,
-          sex:user.contactInfo.sex,
-          socialMedia: user.contactInfo.socialMedia,
-          facebook: user.contactInfo.socialMedia.facebook,
-          twitter: user.contactInfo.socialMedia.twitter
+          channelName: user.channelName
+          //city: user.contactInfo.city,
+          //country: user.contactInfo.country,
+          // sex:user.contactInfo.sex,
+          // socialMedia: user.contactInfo.socialMedia,
+          // facebook: user.contactInfo.socialMedia.facebook,
+          // twitter: user.contactInfo.socialMedia.twitter
+        }
+      });
+    };
+  }
+  catch(error) {
+    console.log(error);
+  };
+};
+
+const getUsers = async (req, res) => {
+  console.log("User get route working!");
+  try {
+    const users = await userModelSchema.find({});
+    //console.log(userID);
+    //console.log(user);
+    if (!users) {
+      res.status(404).json({
+        ResponseCode: 404,
+        ResponseDescription: "The Requested Resource Does Not Exist."
+      });
+    }
+    else{
+      res.status(200).json({
+        ResposeCode: 200,
+        ResponseDescription: "Resource Found.",
+        Result: {
+          // userID: users.userID,
+          // accountType: users.accountType,
+          // accumulatedViews: users.accumulatedViews,
+          // bio: users.bio,
+          // categories: users.categories,
+          // channelName: users.channelName,
+          // city: users.contactInfo.city,
+          // country: users.contactInfo.country,
+          // sex:users.contactInfo.sex,
+          // socialMedia: users.contactInfo.socialMedia,
+          // facebook: users.contactInfo.socialMedia.facebook,
+          // twitter: users.contactInfo.socialMedia.twitter
+          users: users
         }
       });
     };
@@ -119,6 +158,7 @@ const deletetUser = async function (req, res) {
 
 module.exports = {
   getUser,
+  getUsers,
   postUser
 };
 
