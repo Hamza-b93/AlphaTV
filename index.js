@@ -8,9 +8,8 @@ db.once("open", function() {
    console.log('db connected!');
 });
 
-const userRoute = require('./routes/UserRoute.js');
 const signupRoute = require('./routes/SignupRoute.js');
-
+const userRoute = require('./routes/UserRoute.js');
 const port = process.env.PORT || 5000;
 
 app.use(express.json());
