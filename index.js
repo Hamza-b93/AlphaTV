@@ -10,6 +10,7 @@ db.once("open", function() {
 
 const signupRoute = require('./routes/SignupRoute.js');
 const userRoute = require('./routes/UserRoute.js');
+const streamRoute = require('./routes/StreamRoute.js');
 const port = process.env.PORT || 5000;
 
 app.use(express.json());
@@ -23,3 +24,4 @@ app.listen(port, function() {
 app.use('/user', userRoute);
 app.use('/users', userRoute);
 app.use('/signup', signupRoute);
+app.use('/stream', streamRoute);

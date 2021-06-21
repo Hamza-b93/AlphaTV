@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const userModelSchema = require('../models/UserModel.js');
+const userModelSchema = require('../models/UserSchema.js');
 
 const getUser = async function(req, res) {
   console.log("User get route working!");
@@ -9,13 +9,13 @@ const getUser = async function(req, res) {
     //console.log(userID);
     //console.log(user);
     if (!user) {
-      res.status(404).json({
+      return res.status(404).json({
         ResponseCode: 404,
         ResponseDescription: "The Requested Resource Does Not Exist."
       });
     }
     else{
-      res.status(200).json({
+      return res.status(200).json({
         ResposeCode: 200,
         ResponseDescription: "Resource Found.",
         Result: {
@@ -25,12 +25,6 @@ const getUser = async function(req, res) {
           bio: user.bio,
           categories: user.categories,
           channelName: user.channelName
-          //city: user.contactInfo.city,
-          //country: user.contactInfo.country,
-          // sex:user.contactInfo.sex,
-          // socialMedia: user.contactInfo.socialMedia,
-          // facebook: user.contactInfo.socialMedia.facebook,
-          // twitter: user.contactInfo.socialMedia.twitter
         }
       });
     };
@@ -47,13 +41,13 @@ const getUsers = async (req, res) => {
     //console.log(userID);
     //console.log(user);
     if (!users) {
-      res.status(404).json({
+      return res.status(404).json({
         ResponseCode: 404,
         ResponseDescription: "The Requested Resource Does Not Exist."
       });
     }
     else{
-      res.status(200).json({
+      return res.status(200).json({
         ResposeCode: 200,
         ResponseDescription: "Resource Found.",
         Result: {
@@ -97,7 +91,7 @@ const postUser = async (req, res) => {
     //console.log(userID);
     //console.log(user);
     if (userExists) {
-      res.status(400).json({
+      return res.status(400).json({
         Error: 'A user with this ID already exists. Kindly try another ID.'
       });
     }
@@ -114,14 +108,14 @@ const postUser = async (req, res) => {
           sex: req.body.sex
         }
       });
-      res.status(200).json({
+      return res.status(200).json({
         Success: 'User created successfully!'
       });
     };
   }
   catch(error) {
     //console.log(error);
-    res.status(400).json({
+    return res.status(400).json({
       Error: error
     })
   };
