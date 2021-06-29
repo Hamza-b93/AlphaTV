@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const userModelSchema = require('../models/UserSchema.js');
+const bcrypt = require("bcrypt");
 
 const getUser = async function(req, res) {
   console.log("User get route working!");
@@ -76,36 +77,37 @@ const getUsers = async (req, res) => {
 const postUser = async (req, res) => {
   console.log("User post route working!");
   try {
-    //const { id, accountType, channelName, city, country, dob, emailAddress, phoneNumber, sex } = req.body;
-    const userID = await req.body.id;
+  //  const { id, accountType, channelName, city, country, dob, emailAddress, phoneNumber, sex } = req.body;
+    const userID = await req.body.userID;
     const userExists = await userModelSchema.findOne({_id: userID});
     const country = req.body.country;
     const dateOfBirth = req.body.dateOfBirth;
-    const firstname = req.body.firstName;
+    const emailAddress = req.body.emailAddress;
+    const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const middleName = req.body.middleName;
     const password = req.body.password;
     const sex = req.body.sex;
-    console.log(userID);
-    console.log(country);
-    //console.log(userID);
-    //console.log(user);
+    const saltRounds = 10;
+
     if (userExists) {
       return res.status(400).json({
         Error: 'A user with this ID already exists. Kindly try another ID.'
       });
     }
     else{
+      const hash = bcrypt.hashSync(password, saltRounds);
       await userModelSchema.create({
         _id: userID,
         contactInfo: {
-          country: req.body.country,
-          dateOfBirth: req.body.dateOfBirth,
-          firstname: req.body.firstName,
-          lastName: req.body.lastName,
-          middleName: req.body.middleName,
-          password: req.body.password,
-          sex: req.body.sex
+          country: country,
+          dateOfBirth: dateOfBirth,
+          emailAddress: emailAddress,
+          firstname: firstName,
+          lastName: lastName,
+          middleName: middleName,
+          password: hash,
+          sex: sex
         }
       });
       return res.status(200).json({
@@ -114,10 +116,10 @@ const postUser = async (req, res) => {
     };
   }
   catch(error) {
-    //console.log(error);
+    console.log(error);
     return res.status(400).json({
       Error: error
-    })
+    });
   };
 };
 
@@ -150,10 +152,41 @@ const deletetUser = async function (req, res) {
   };
 };
 
+const userSignin = async (req, res) => {
+  console.log("User signin route working!");
+  try {
+    const { emailAddress, password, userID } = req.body;
+    console.log(userID);
+    const saltRounds = 10;
+    //const userExists = await userModelSchema.findOne({_id: userID});
+    const userExists = await userModelSchema.findById(userID).exec();
+    if (!userExists) {
+      return res.status(404).json({
+        Error: 'A user with this ID does not exist. Kindly try another ID.'
+      });
+    }
+    else{
+      const storedPassword = userExists.contactInfo.password;
+      const passwordIsCorrect = bcrypt.compareSync(password, storedPassword);
+      console.log(passwordIsCorrect);
+      return res.status(200).json({
+        Success: 'User signined successfully!'
+      });
+    };
+  }
+  catch(error) {
+    console.log(error);
+    return res.status(400).json({
+      Error: error
+    });
+  };
+};
+
 module.exports = {
   getUser,
   getUsers,
-  postUser
+  postUser,
+  userSignin
 };
 
 //     userModelSchema.exists({_id: userID}, function (err, doc) {

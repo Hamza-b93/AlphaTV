@@ -8,6 +8,7 @@ db.once("open", function() {
    console.log('db connected!');
 });
 
+const signinRoute = require('./routes/SigninRoute.js');
 const signupRoute = require('./routes/SignupRoute.js');
 const userRoute = require('./routes/UserRoute.js');
 const streamRoute = require('./routes/StreamRoute.js');
@@ -23,5 +24,6 @@ app.listen(port, function() {
 
 app.use('/user', userRoute);
 app.use('/users', userRoute);
+app.use('/signin', signinRoute);
 app.use('/signup', signupRoute);
 app.use('/stream', streamRoute);
